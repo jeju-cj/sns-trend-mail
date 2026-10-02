@@ -34,9 +34,9 @@ jobs:
             --data-urlencode "viewport_height=1100" \
             --data-urlencode "device_scale_factor=1" \
             --data-urlencode "full_page=false" \
-            --data-urlencode "clip_x=400" \
-            --data-urlencode "clip_y=55" \
-            --data-urlencode "clip_width=1040" \
+            --data-urlencode "clip_x=690" \
+            --data-urlencode "clip_y=45" \
+            --data-urlencode "clip_width=560" \
             --data-urlencode "clip_height=850" \
             --data-urlencode "block_ads=true" \
             --data-urlencode "block_cookie_banners=true" \
