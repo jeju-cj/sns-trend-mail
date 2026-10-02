@@ -1,0 +1,1 @@
+# sns-trend-mail
