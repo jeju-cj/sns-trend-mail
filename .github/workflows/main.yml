@@ -30,16 +30,18 @@ jobs:
             --data-urlencode "access_key=${SCREENSHOTONE_ACCESS_KEY}" \
             --data-urlencode "url=https://claude.ai/artifact/661fBc9hrzkFAv3JvS8E7V" \
             --data-urlencode "format=jpg" \
-            --data-urlencode "viewport_width=1440" \
-            --data-urlencode "viewport_height=1100" \
-            --data-urlencode "device_scale_factor=1" \
-            --data-urlencode "full_page=false" \
+            --data-urlencode "block_ads=true" \
+            --data-urlencode "block_cookie_banners=true" \
+            --data-urlencode "block_banners_by_heuristics=false" \
+            --data-urlencode "block_trackers=true" \
+            --data-urlencode "delay=0" \
+            --data-urlencode "timeout=60" \
+            --data-urlencode "response_type=by_format" \
+            --data-urlencode "image_quality=80" \
             --data-urlencode "clip_x=690" \
             --data-urlencode "clip_y=45" \
             --data-urlencode "clip_width=560" \
             --data-urlencode "clip_height=850" \
-            --data-urlencode "block_ads=true" \
-            --data-urlencode "block_cookie_banners=true" \
             --output sns-trend.jpg
 
       - name: Save screenshot
