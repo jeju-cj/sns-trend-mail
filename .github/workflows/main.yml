@@ -3,69 +3,37 @@ name: SNS Trend Screenshot
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   screenshot:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Setup Node
-        uses: actions/setup-node@v6
-        with:
-          node-version: '20'
-
-      - name: Install Playwright
+      - name: Take screenshot with ScreenshotOne
+        env:
+          SCREENSHOTONE_ACCESS_KEY: ${{ secrets.SCREENSHOTONE_ACCESS_KEY }}
         run: |
-          npm init -y
-          npm install playwright
-          npx playwright install chromium --with-deps
-
-      - name: Take screenshot
-        run: |
-          node <<'EOF'
-          const { chromium } = require('playwright');
-
-          (async () => {
-            const browser = await chromium.launch({
-              headless: true
-            });
-
-            const page = await browser.newPage({
-              viewport: {
-                width: 1440,
-                height: 1100
-              },
-              deviceScaleFactor: 1
-            });
-
-            await page.goto(
-              'https://claude.ai/artifact/661fBc9hrzkFAv3JvS8E7V',
-              {
-                waitUntil: 'domcontentloaded',
-                timeout: 60000
-              }
-            );
-
-            await page.waitForTimeout(15000);
-
-            await page.screenshot({
-              path: 'sns-trend.png',
-              fullPage: false
-            });
-
-            await browser.close();
-          })();
-          EOF
+          curl --fail --location \
+            --get "https://api.screenshotone.com/take" \
+            --data-urlencode "access_key=${SCREENSHOTONE_ACCESS_KEY}" \
+            --data-urlencode "url=https://claude.ai/artifact/661fBc9hrzkFAv3JvS8E7V" \
+            --data-urlencode "format=jpg" \
+            --data-urlencode "viewport_width=1440" \
+            --data-urlencode "viewport_height=1100" \
+            --data-urlencode "device_scale_factor=1" \
+            --data-urlencode "full_page=false" \
+            --data-urlencode "block_ads=true" \
+            --data-urlencode "block_cookie_banners=true" \
+            --output sns-trend.jpg
 
       - name: Save screenshot
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add sns-trend.png
-          git commit -m "Update SNS trend screenshot" || exit 0
-          git push
+          git add sns-trend.jpg
+          git commit -m "Update SNS
