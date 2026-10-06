@@ -25,7 +25,7 @@ jobs:
         env:
           ACCESS_KEY: ${{ secrets.SCREENSHOTONE_ACCESS_KEY }}
         run: |
-          curl --location \
+          curl --fail --location \
             --get "https://api.screenshotone.com/take" \
             --data-urlencode "access_key=${ACCESS_KEY}" \
             --data-urlencode "url=https://claude.ai/artifact/661fBc9hrzkFAv3JvS8E7V" \
@@ -33,4 +33,5 @@ jobs:
             --data-urlencode "block_ads=true" \
             --data-urlencode "block_cookie_banners=true" \
             --data-urlencode "block_banners_by_heuristics=false" \
-            --data-urlencode "
+            --data-urlencode "block_trackers=true" \
+          
