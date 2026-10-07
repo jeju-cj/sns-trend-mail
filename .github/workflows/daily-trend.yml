@@ -1,0 +1,41 @@
+name: Daily Trend Screenshot
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 한국시간 평일 오전 06:40
+    # UTC 기준 전날 21:40
+    - cron: '40 21 * * 0-4'
+
+permissions:
+  contents: write
+
+jobs:
+  screenshot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Download screenshot
+        env:
+          ACCESS_KEY: ${{ secrets.SCREENSHOTONE_ACCESS_KEY }}
+        run: |
+          URL="https://api.screenshotone.com/take?access_key=${ACCESS_KEY}&url=https%3A%2F%2Fclaude.ai%2Fartifact%2F87efZGjsrX4wePzBkZX4Uo&format=jpg&block_ads=true&block_cookie_banners=true&block_banners_by_heuristics=false&block_trackers=true&delay=2&timeout=60&response_type=by_format&image_quality=90&cache=false"
+
+          curl --fail --location "$URL" --output daily-trend.jpg
+
+          echo "===== SCREENSHOT CHECK ====="
+          file daily-trend.jpg
+          ls -lh daily-trend.jpg
+          test -s daily-trend.jpg
+
+      - name: Save screenshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add daily-trend.jpg
+          git commit -m "Update daily trend screenshot" || true
+          git push
