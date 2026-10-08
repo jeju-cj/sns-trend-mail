@@ -34,11 +34,10 @@ jobs:
             --data-urlencode "block_cookie_banners=true" \
             --data-urlencode "block_banners_by_heuristics=false" \
             --data-urlencode "block_trackers=true" \
-            --data-urlencode "delay=2" \
+            --data-urlencode "delay=0" \
             --data-urlencode "timeout=60" \
             --data-urlencode "response_type=by_format" \
-            --data-urlencode "image_quality=90" \
-            --data-urlencode "cache=false" \
+            --data-urlencode "image_quality=80" \
             --output full-screenshot.jpg
 
       - name: Check downloaded screenshot
@@ -88,10 +87,25 @@ jobs:
           top = max(0, card_top - 90)
           bottom = min(h, card_bottom + 135)
 
-          print("Detected card:", card_left, card_top, card_right, card_bottom)
-          print("Crop:", left, top, right, bottom)
+          print(
+              "Detected card:",
+              card_left,
+              card_top,
+              card_right,
+              card_bottom
+          )
 
-          cropped = img.crop((left, top, right, bottom))
+          print(
+              "Crop:",
+              left,
+              top,
+              right,
+              bottom
+          )
+
+          cropped = img.crop(
+              (left, top, right, bottom)
+          )
 
           cropped.save(
               "sns-trend.jpg",
