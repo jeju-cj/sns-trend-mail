@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
 
   schedule:
-    # 한국시간 평일 오전 07:00
-    - cron: '40 21 * * 0-4'
+  # 한국시간 평일 오전 07:00
+  - cron: '0 22 * * 0-4'
 
-    # 한국시간 평일 오전 07:15
-    - cron: '55 21 * * 0-4'
+  # 한국시간 평일 오전 07:15
+  - cron: '15 22 * * 0-4'
 
 permissions:
   contents: write
